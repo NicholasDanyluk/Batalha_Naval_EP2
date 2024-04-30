@@ -10,7 +10,8 @@
 # White: \u001b[37m
 # Reset: \u001b[0m
 
-ALFABETO = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ'
+ori = {'A': 0, 'B': 1, 'C': 2, 'D': 3, 'E': 4, 'F': 5, 'G': 6, 'H': 7, 'I': 8, 'J': 9}
+ori_num = ['1', '2', '3', '4', '5', '6', '7', '8', '9', '10']
 
 CORES = {
     'reset': '\u001b[0m',
@@ -73,6 +74,8 @@ PAISES =  {
 
 #********************************#  FUNÇÕES  #********************************#
 
+import random
+
 ###############################################################################
 ###                     CRIA MATRIZ QUADRADA DE ESPAÇOS                     ###
 ###############################################################################
@@ -82,6 +85,14 @@ def cria_mapa(n):
 
     for i in range(n):
         l = [' ']*n
+        lista.append(l)
+    return lista
+
+def cria_visual(n):
+    lista = []
+
+    for i in range(n):
+        l = ['   ']*n
         lista.append(l)
     return lista
 
@@ -125,25 +136,6 @@ def foi_derrotado(mapa):
 ###                    ALOCANDO NAVIOS PARA O COMPUTADOR                    ###
 ###############################################################################
 
-import random
-def posicao_suporta(mapa,blocos,linha,coluna,orientacao):
-    
-    for i in range(blocos):
-
-        if orientacao == 'v':
-            if linha+i >= len(mapa) or coluna >= len(mapa[linha+i]):
-                return False
-            elif mapa[linha+i][coluna] == 'N':
-                return False
-        
-        elif orientacao == 'h':
-            if linha >= len(mapa) or coluna+i >= len(mapa[linha]):
-                return False
-            elif mapa[linha][coluna+i] == 'N':
-                return False
-
-    return True
-
 def aloca_navios(mapa,tamanhos):
 
     for t in tamanhos:
@@ -165,12 +157,17 @@ def aloca_navios(mapa,tamanhos):
 
 #**********************************#  JOGO  #*********************************#
 
-import random
-
 ### define o pais do computador ###
+mapa = cria_mapa(10)
 paises = ['Brasil','França','Austrália','Rússia','Japão']
 p = ['1','2','3','4','5']
 pais_pc = random.choice(paises)
+navios_pc = []
+for navio in PAISES[pais_pc]:
+    for i in range(PAISES[pais_pc][navio]):
+        navios_pc.append(CONFIGURACAO[navio])
+mapa_pc = aloca_navios(mapa,navios_pc)
+print(mapa_pc)
 
 ### printa as mensagens iniciais ###
 welcome = ''' ===================================== 
@@ -226,3 +223,112 @@ while jogador not in p:
     print('Opção inválida')
     jogador = input('Qual o número da nação da sua frota? ')
 print(f'Você escolheu a nação {paises[int(jogador)-1]}\nAgora é sua vez de alocar seus navios de guerra!')
+pais_jogador = paises[int(jogador)-1]
+
+
+x = '▓▓▓'
+
+### cria o mapa ###
+visual_pc = cria_visual(10)
+visual_jogador = cria_visual(10)
+mapa_jogador = cria_mapa(10)
+
+alocar = []
+for navio in PAISES[pais_jogador]:
+    for i in range(PAISES[pais_jogador][navio]):
+        alocar.append(navio)
+
+
+print(mapa_jogador)
+print(mapa_pc)
+
+### loop de alocar navios ###
+
+for i in range(len(alocar)):
+
+    ### print do mapa ###
+    display = [f'''  COMPUTADOR - {pais_pc}                   JOGADOR - {pais_jogador}
+     A  B  C  D  E  F  G  H  I  J          A  B  C  D  E  F  G  H  I  J ''']
+    for i in range(9):
+        display.append(f'  {i+1} {visual_pc[i][0]}{visual_pc[i][1]}{visual_pc[i][2]}{visual_pc[i][3]}{visual_pc[i][4]}{visual_pc[i][5]}{visual_pc[i][6]}{visual_pc[i][7]}{visual_pc[i][8]}{visual_pc[i][9]} {i+1}    {i+1} {visual_jogador[i][0]}{visual_jogador[i][1]}{visual_jogador[i][2]}{visual_jogador[i][3]}{visual_jogador[i][4]}{visual_jogador[i][5]}{visual_jogador[i][6]}{visual_jogador[i][7]}{visual_jogador[i][8]}{visual_jogador[i][9]} {i+1}')
+    display.append(f' 10 {visual_pc[i][0]}{visual_pc[i][1]}{visual_pc[i][2]}{visual_pc[i][3]}{visual_pc[i][4]}{visual_pc[i][5]}{visual_pc[i][6]}{visual_pc[i][7]}{visual_pc[i][8]}{visual_pc[i][9]} 10  10 {visual_jogador[i][0]}{visual_jogador[i][1]}{visual_jogador[i][2]}{visual_jogador[i][3]}{visual_jogador[i][4]}{visual_jogador[i][5]}{visual_jogador[i][6]}{visual_jogador[i][7]}{visual_jogador[i][8]}{visual_jogador[i][9]} 10')
+    display.append('     A  B  C  D  E  F  G  H  I  J          A  B  C  D  E  F  G  H  I  J')
+    for a in display:
+        print(a)
+    #####################
+
+    blocos = PAISES[pais_jogador][alocar[0]]
+    print(f'Alocar: {alocar[0]} ({blocos} blocos)')
+    del alocar[0]
+    if len(alocar) > 0:
+        prox = alocar[0]
+        for i in range(1,len(alocar)):
+            prox += ', ' + alocar[i]
+        print(f'Próximos: {prox}')
+
+    posicao = False
+
+    while posicao == False:
+        c = False
+
+        while c == False:
+            letra = input('Informe a letra: ')
+            letra = letra.upper()
+            if letra not in ori:
+                print('Letra inválida')
+            else:
+                c = True
+        
+        c = False
+        while c == False:
+            linha = input('Informe a linha: ')
+            if linha not in ori_num:
+                print('Linha inválida')
+            else:
+                c = True
+
+        c = False
+        while c == False:
+            orientacao = input('Informe a orientação [v/h]: ')
+            orientacao.lower()
+            if orientacao != 'v' and orientacao != 'h':
+                print('Orientação inválida')
+            else:
+                c = True
+
+        l = int(linha)-1
+        c = ori[letra]
+        posicao = posicao_suporta(mapa_jogador,blocos,l,c,orientacao)
+        if posicao == False:
+            print(f'Não foi possivel alocar o navio em {letra}{linha} {orientacao}')
+            ### print do mapa ###
+            display = [f'''  COMPUTADOR - {pais_pc}                   JOGADOR - {pais_jogador}
+            A  B  C  D  E  F  G  H  I  J          A  B  C  D  E  F  G  H  I  J ''']
+            for i in range(9):
+                display.append(f'  {i+1} {visual_pc[i][0]}{visual_pc[i][1]}{visual_pc[i][2]}{visual_pc[i][3]}{visual_pc[i][4]}{visual_pc[i][5]}{visual_pc[i][6]}{visual_pc[i][7]}{visual_pc[i][8]}{visual_pc[i][9]} {i+1}    {i+1} {visual_jogador[i][0]}{visual_jogador[i][1]}{visual_jogador[i][2]}{visual_jogador[i][3]}{visual_jogador[i][4]}{visual_jogador[i][5]}{visual_jogador[i][6]}{visual_jogador[i][7]}{visual_jogador[i][8]}{visual_jogador[i][9]} {i+1}')
+            display.append(f' 10 {visual_pc[i][0]}{visual_pc[i][1]}{visual_pc[i][2]}{visual_pc[i][3]}{visual_pc[i][4]}{visual_pc[i][5]}{visual_pc[i][6]}{visual_pc[i][7]}{visual_pc[i][8]}{visual_pc[i][9]} 10  10 {visual_jogador[i][0]}{visual_jogador[i][1]}{visual_jogador[i][2]}{visual_jogador[i][3]}{visual_jogador[i][4]}{visual_jogador[i][5]}{visual_jogador[i][6]}{visual_jogador[i][7]}{visual_jogador[i][8]}{visual_jogador[i][9]} 10')
+            display.append('     A  B  C  D  E  F  G  H  I  J          A  B  C  D  E  F  G  H  I  J')
+            for a in display:
+                print(a)
+            #####################
+            print(f'Alocar: {alocar[0]} ({blocos} blocos)')
+            if len(alocar) > 0:
+                prox = alocar[0]
+                for i in range(1,len(alocar)):
+                    prox += ', ' + alocar[i]
+                print(f'Próximos: {prox}')
+
+    print('Navio alocado!')
+
+    for i in range(blocos):
+        if orientacao == 'v':
+            mapa_jogador[l+i][c] = 'N'
+            visual_jogador[l+i][c] = f'\u001b[32m{x}\u001b[0m'
+        elif orientacao == 'h':
+            mapa_jogador[l][c+i] = 'N'
+            visual_jogador[l][c+i] = f'\u001b[32m{x}\u001b[0m'
+
+vitoria_pc = True
+vitoria_jogador = True
+
+### loop do jogo ###
