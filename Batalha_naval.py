@@ -75,6 +75,7 @@ PAISES =  {
 #********************************#  FUNÇÕES  #********************************#
 
 import random
+import time
 
 ###############################################################################
 ###                     CRIA MATRIZ QUADRADA DE ESPAÇOS                     ###
@@ -238,10 +239,6 @@ for navio in PAISES[pais_jogador]:
     for i in range(PAISES[pais_jogador][navio]):
         alocar.append(navio)
 
-
-print(mapa_jogador)
-print(mapa_pc)
-
 ### loop de alocar navios ###
 
 for i in range(len(alocar)):
@@ -328,7 +325,17 @@ for i in range(len(alocar)):
             mapa_jogador[l][c+i] = 'N'
             visual_jogador[l][c+i] = f'\u001b[32m{x}\u001b[0m'
 
+### start print ###
+print('Iniciando batalha naval!')
+tempos = [5,4,3,2,1]
+for tempo in tempos:
+    print(tempo)
+    time.sleep(1)
+
 vitoria_pc = True
 vitoria_jogador = True
 
 ### loop do jogo ###
+
+# while vitoria_jogador == True and vitoria_pc == True:
+    
