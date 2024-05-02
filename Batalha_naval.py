@@ -13,153 +13,12 @@
 # underline: \u001b[4m
 # reversed: \u001b[7m
 
-ori = {'A': 0, 'B': 1, 'C': 2, 'D': 3, 'E': 4, 'F': 5, 'G': 6, 'H': 7, 'I': 8, 'J': 9}
-ori_num = ['1', '2', '3', '4', '5', '6', '7', '8', '9', '10']
-
-CORES = {
-    'reset': '\u001b[0m',
-    'red': '\u001b[31m',
-    'black': '\u001b[30m',
-    'green': '\u001b[32m',
-    'yellow': '\u001b[33m',
-    'blue': '\u001b[34m',
-    'magenta': '\u001b[35m',
-    'cyan': '\u001b[36m',
-    'white': '\u001b[37m'
-}
-
-CONFIGURACAO = {
-    'destroyer': 3,
-    'porta-avioes': 5,
-    'submarino': 2,
-    'torpedeiro': 3,
-    'cruzador': 2,
-    'couracado': 4
-}
-
-PAISES =  {
-    'Brasil': {
-        'cruzador': 1,
-        'torpedeiro': 2,
-        'destroyer': 1,
-        'couracado': 1,
-        'porta-avioes': 1
-    }, 
-    'França': {
-        'cruzador': 3, 
-        'porta-avioes': 1, 
-        'destroyer': 1, 
-        'submarino': 1, 
-        'couracado': 1
-    },
-    'Austrália': {
-        'couracado': 1,
-        'cruzador': 3, 
-        'submarino': 1,
-        'porta-avioes': 1, 
-        'torpedeiro': 1
-    },
-    'Rússia': {
-        'cruzador': 1,
-        'porta-avioes': 1,
-        'couracado': 2,
-        'destroyer': 1,
-        'submarino': 1
-    },
-    'Japão': {
-        'torpedeiro': 2,
-        'cruzador': 1,
-        'destroyer': 2,
-        'couracado': 1,
-        'submarino': 1
-    }
-}
-
-#********************************#  FUNÇÕES  #********************************#
+#**********************************#  JOGO  #*********************************#
 
 import random
 import time
-
-###############################################################################
-###                     CRIA MATRIZ QUADRADA DE ESPAÇOS                     ###
-###############################################################################
-
-def cria_mapa(n):
-    lista = []
-
-    for i in range(n):
-        l = [' ']*n
-        lista.append(l)
-    return lista
-
-def cria_visual(n):
-    lista = []
-
-    for i in range(n):
-        l = ['   ']*n
-        lista.append(l)
-    return lista
-
-###############################################################################
-###                    NAVIO PODE SER ALOCADO NA POSIÇÃO                    ###
-###############################################################################
-
-def posicao_suporta(mapa,blocos,linha,coluna,orientacao):
-    
-    for i in range(blocos):
-
-        if orientacao == 'v':
-            if linha+i >= len(mapa) or coluna >= len(mapa[linha+i]):
-                return False
-            elif mapa[linha+i][coluna] == 'N':
-                return False
-        
-        elif orientacao == 'h':
-            if linha >= len(mapa) or coluna+i >= len(mapa[linha]):
-                return False
-            elif mapa[linha][coluna+i] == 'N':
-                return False
-
-    return True
-
-###############################################################################
-###                    VERIFICA SE ACABOU OS Ns DA MATRIZ                   ###
-###############################################################################
-
-def foi_derrotado(mapa):
-
-    for lista in mapa:
-
-        for elemento in lista:
-
-            if elemento == 'N':
-                return False
-    return True
-
-###############################################################################
-###                    ALOCANDO NAVIOS PARA O COMPUTADOR                    ###
-###############################################################################
-
-def aloca_navios(mapa,tamanhos):
-
-    for t in tamanhos:
-        pos = False
-        while pos == False:
-            n = len(mapa)
-            linha = random.randint(0, n-1)
-            coluna = random.randint(0, n-1)
-            orientacao = random.choice(['h', 'v'])
-            pos = posicao_suporta(mapa,t,linha,coluna,orientacao)
-        for i in range (t):
-            if orientacao == 'v':
-                mapa[linha+i][coluna] = 'N'
-            elif orientacao == 'h':
-                mapa[linha][coluna+i] = 'N'
-    return mapa
-
-
-
-#**********************************#  JOGO  #*********************************#
+from funcoes import *
+from constantes import *
 
 ### define o pais do computador ###
 mapa = cria_mapa(10)
@@ -174,63 +33,63 @@ mapa_pc = aloca_navios(mapa,navios_pc)
 
 
 ### printa as mensagens iniciais ###
-welcome = '''\u001b[35m\u001b[1m ===================================== 
+welcome = CORES['magenta'] + CORES['bold'] + ''' ===================================== 
 |                                     |
 | Bem-vindo ao INSPER - Batalha Naval |
 |                                     |
- =======   xxxxxxxxxxxxxxxxx   ======= \u001b[0m'''
+ =======   xxxxxxxxxxxxxxxxx   ======= ''' + CORES['reset']
 
-aviso = f'\u001b[35m\u001b[1mIniciando o jogo!\n\n\u001b[33mComputador está alocando os navios de guerra do país {pais_pc}...\nComputador já está em posição de batalha!\u001b[0m'
+aviso = CORES['magenta'] + CORES['bold'] + f'Iniciando o jogo!\n\n' + CORES['yellow'] + f'Computador está alocando os navios de guerra do país {CORES['underline'] + CORES['cyan']}{pais_pc}{CORES['reset'] + CORES['yellow']}...\nComputador já está em posição de batalha!' + CORES['reset']
 
-config = '''\u001b[35m\u001b[1m
-1: Brasil\u001b[0m\u001b[34m
+config = f'''{CORES['magenta'] + CORES['bold']}
+1: Brasil{CORES['reset'] + CORES['blue']}
    1 cruzador
    2 torpedeiro
    1 destroyer
    1 couracado
    1 porta-avioes
-\u001b[35m\u001b[1m
-2: França\u001b[0m\u001b[34m
+{CORES['magenta'] + CORES['bold']}
+2: França{CORES['reset'] + CORES['blue']}
    3 cruzador
    1 porta-avioes
    1 destroyer
    1 submarino
    1 couracado
-\u001b[35m\u001b[1m
-3: Austrália\u001b[0m\u001b[34m
+{CORES['magenta'] + CORES['bold']}
+3: Austrália{CORES['reset'] + CORES['blue']}
    1 couracado
    3 cruzador
    1 submarino
    1 porta-avioes
    1 torpedeiro
-\u001b[35m\u001b[1m
-4: Rússia\u001b[0m\u001b[34m
+{CORES['magenta'] + CORES['bold']}
+4: Rússia{CORES['reset'] + CORES['blue']}
    1 cruzador
    1 porta-avioes
    2 couracado
    1 destroyer
    1 submarino
-\u001b[35m\u001b[1m
-5: Japão\u001b[0m\u001b[34m
+{CORES['magenta'] + CORES['bold']}
+5: Japão{CORES['reset'] + CORES['blue']}
    2 torpedeiro
    1 cruzador
    2 destroyer
    1 couracado
    1 submarino
-\u001b[0m'''
+{CORES['reset']}'''
 
 print(f'{welcome}\n\n{aviso}\n{config}')
 
 ### define o pais do jogador ###
-jogador = input('\u001b[33mQual o número da nação da sua frota? ')
+jogador = input(CORES['yellow'] + f'Qual o número da nação da sua frota? {CORES['reset']}')
 while jogador not in p:
-    print('Opção inválida')
-    jogador = input('Qual o número da nação da sua frota? ')
-print(f'Você escolheu a nação {paises[int(jogador)-1]}\nAgora é sua vez de alocar seus navios de guerra!')
+    print(f'{CORES['red']}Opção inválida{CORES['reset']}\n')
+    jogador = input(f'{CORES['yellow']}Qual o número da nação da sua frota? {CORES['reset']}')
+print(f'{CORES['yellow']}Você escolheu a nação {CORES['cyan'] + CORES['underline']}{paises[int(jogador)-1]}{CORES['reset'] + CORES['yellow']}\nAgora é sua vez de alocar seus navios de guerra!\n')
 pais_jogador = paises[int(jogador)-1]
 
 
-x = '▓▓▓'
+
 
 ### cria o mapa ###
 visual_pc = cria_visual(10)
@@ -247,7 +106,7 @@ for navio in PAISES[pais_jogador]:
 for i in range(len(alocar)):
 
     ### print do mapa ###
-    display = [f'''\u001b[0m\u001b[35m\u001b[1m  COMPUTADOR - {pais_pc}                   JOGADOR - {pais_jogador}\u001b[0m
+    display = [f'''{CORES['reset'] + CORES['magenta'] + CORES['bold']}  COMPUTADOR - {pais_pc}                   JOGADOR - {pais_jogador}{CORES['reset']}
      A  B  C  D  E  F  G  H  I  J          A  B  C  D  E  F  G  H  I  J ''']
     for i in range(9):
         display.append(f'  {i+1} {visual_pc[i][0]}{visual_pc[i][1]}{visual_pc[i][2]}{visual_pc[i][3]}{visual_pc[i][4]}{visual_pc[i][5]}{visual_pc[i][6]}{visual_pc[i][7]}{visual_pc[i][8]}{visual_pc[i][9]} {i+1}    {i+1} {visual_jogador[i][0]}{visual_jogador[i][1]}{visual_jogador[i][2]}{visual_jogador[i][3]}{visual_jogador[i][4]}{visual_jogador[i][5]}{visual_jogador[i][6]}{visual_jogador[i][7]}{visual_jogador[i][8]}{visual_jogador[i][9]} {i+1}')
@@ -259,13 +118,13 @@ for i in range(len(alocar)):
     #####################
 
     blocos = CONFIGURACAO[alocar[0]]
-    print(f'\u001b[0m\u001b[33mAlocar: {alocar[0]} ({blocos} blocos)')
+    print(f'{CORES['reset'] + CORES['yellow']}Alocar: {CORES['cyan'] + CORES['underline']}{alocar[0]} ({blocos} blocos){CORES['reset']}')
     del alocar[0]
     if len(alocar) > 0:
         prox = alocar[0]
         for i in range(1,len(alocar)):
             prox += ', ' + alocar[i]
-        print(f'Próximos: {prox}')
+        print(f'{CORES['yellow']}Próximos: {prox}{CORES['reset']}')
 
     posicao = False
 
@@ -273,27 +132,27 @@ for i in range(len(alocar)):
         c = False
 
         while c == False:
-            letra = input('Informe a letra: ')
+            letra = input(f'{CORES['yellow']}Informe a letra: {CORES['reset']}')
             letra = letra.upper()
             if letra not in ori:
-                print('Letra inválida')
+                print(f'{CORES['red']}Letra inválida{CORES['reset']}')
             else:
                 c = True
         
         c = False
         while c == False:
-            linha = input('Informe a linha: ')
+            linha = input(f'{CORES['yellow']}Informe a linha: {CORES['reset']}')
             if linha not in ori_num:
-                print('Linha inválida')
+                print(f'{CORES['red']}Linha inválida{CORES['reset']}')
             else:
                 c = True
 
         c = False
         while c == False:
-            orientacao = input('Informe a orientação [v/h]: ')
+            orientacao = input(f'{CORES['yellow']}Informe a orientação [v/h]: {CORES['reset']}')
             orientacao.lower()
             if orientacao != 'v' and orientacao != 'h':
-                print('Orientação inválida')
+                print(f'{CORES['red']}Orientação inválida{CORES['reset']}')
             else:
                 c = True
 
@@ -301,9 +160,9 @@ for i in range(len(alocar)):
         c = ori[letra]
         posicao = posicao_suporta(mapa_jogador,blocos,l,c,orientacao)
         if posicao == False:
-            print(f'Não foi possivel alocar o navio em {letra}{linha} {orientacao}')
+            print(f'{CORES['red']}Não foi possivel alocar o navio em {CORES['cyan'] + CORES['underline']}{letra}{linha} {orientacao}{CORES['reset']}\n')
             ### print do mapa ###
-            display = [f'''\u001b[0m\u001b[35m\u001b[1m  COMPUTADOR - {pais_pc}                   JOGADOR - {pais_jogador}\u001b[0m
+            display = [f'''{CORES['magenta'] + CORES['bold']}  COMPUTADOR - {pais_pc}                   JOGADOR - {pais_jogador}{CORES['reset']}
      A  B  C  D  E  F  G  H  I  J          A  B  C  D  E  F  G  H  I  J ''']
             for i in range(9):
                 display.append(f'  {i+1} {visual_pc[i][0]}{visual_pc[i][1]}{visual_pc[i][2]}{visual_pc[i][3]}{visual_pc[i][4]}{visual_pc[i][5]}{visual_pc[i][6]}{visual_pc[i][7]}{visual_pc[i][8]}{visual_pc[i][9]} {i+1}    {i+1} {visual_jogador[i][0]}{visual_jogador[i][1]}{visual_jogador[i][2]}{visual_jogador[i][3]}{visual_jogador[i][4]}{visual_jogador[i][5]}{visual_jogador[i][6]}{visual_jogador[i][7]}{visual_jogador[i][8]}{visual_jogador[i][9]} {i+1}')
@@ -313,31 +172,31 @@ for i in range(len(alocar)):
             for a in display:
                 print(a)
             #####################
-            print(f'\u001b[0m\u001b[33mAlocar: {alocar[0]} ({blocos} blocos)')
+            print(f'{CORES['reset'] + CORES['yellow']}Alocar: {CORES['cyan']+CORES['underline']}{alocar[0]} ({blocos} blocos){CORES['reset']}')
             if len(alocar) > 0:
                 prox = alocar[0]
                 for i in range(1,len(alocar)):
                     prox += ', ' + alocar[i]
-                print(f'Próximos: {prox}')
+                print(f'{CORES['yellow']}Próximos: {prox}{CORES['reset']}')
 
-    print('Navio alocado!')
+    print(f'{CORES['green']}Navio alocado!{CORES['reset']}\n')
 
     for i in range(blocos):
         if orientacao == 'v':
             mapa_jogador[l+i][c] = 'N'
-            visual_jogador[l+i][c] = f'\u001b[32m{x}\u001b[0m'
+            visual_jogador[l+i][c] = f'{CORES['green']}{quadrado}{CORES['reset']}'
         elif orientacao == 'h':
             mapa_jogador[l][c+i] = 'N'
-            visual_jogador[l][c+i] = f'\u001b[32m{x}\u001b[0m'
+            visual_jogador[l][c+i] = f'{CORES['green']}{quadrado}{CORES['reset']}'
 
 ### start print ###
-print('\u001b[0m\u001b[31m\u001b[1mIniciando batalha naval!')
+print(f'\n{CORES['reset'] + CORES['cyan'] + CORES['bold'] + CORES['underline']}Iniciando batalha naval!{CORES['reset']}\n')
 tempos = [5,4,3,2,1]
 for tempo in tempos:
     print(tempo)
     time.sleep(1)
 
-
+print(barco)
 vitoria_pc = False
 vitoria_jogador = False
 
@@ -346,7 +205,7 @@ restart = 's'
 while restart == 's':
     while vitoria_jogador == False and vitoria_pc == False:
         ### print do mapa ###
-        display = [f'''\u001b[0m\u001b[35m\u001b[1m  COMPUTADOR - {pais_pc}                   JOGADOR - {pais_jogador}\u001b[0m
+        display = [f'''\n{CORES['reset'] + CORES['magenta'] + CORES['bold']}  COMPUTADOR - {pais_pc}                   JOGADOR - {pais_jogador}{CORES['reset']}
      A  B  C  D  E  F  G  H  I  J          A  B  C  D  E  F  G  H  I  J ''']
         for i in range(9):
             display.append(f'  {i+1} {visual_pc[i][0]}{visual_pc[i][1]}{visual_pc[i][2]}{visual_pc[i][3]}{visual_pc[i][4]}{visual_pc[i][5]}{visual_pc[i][6]}{visual_pc[i][7]}{visual_pc[i][8]}{visual_pc[i][9]} {i+1}    {i+1} {visual_jogador[i][0]}{visual_jogador[i][1]}{visual_jogador[i][2]}{visual_jogador[i][3]}{visual_jogador[i][4]}{visual_jogador[i][5]}{visual_jogador[i][6]}{visual_jogador[i][7]}{visual_jogador[i][8]}{visual_jogador[i][9]} {i+1}')
@@ -356,25 +215,25 @@ while restart == 's':
         for a in display:
             print(a)
         #####################
-        print('\u001b[33mCordenadas do seu disparo')
+        print(f'{CORES['yellow']}Cordenadas do seu disparo{CORES['reset']}')
 
         ### bomba do jogador ###
         posi = False
         while posi == False:
             c = False
             while c == False:
-                letra = input('Informe a letra: ')
+                letra = input(f'{CORES['yellow']}Informe a letra: {CORES['reset']}')
                 letra = letra.upper()
                 if letra not in ori:
-                    print('Letra inválida')
+                    print(f'{CORES['red']}Letra inválida{CORES['reset']}')
                 else:
                     c = True
             
             c = False
             while c == False:
-                linha = input('Informe a linha: ')
+                linha = input(f'{CORES['yellow']}Informe a linha: {CORES['reset']}')
                 if linha not in ori_num:
-                    print('Linha inválida')
+                    print(f'{CORES['red']}Linha inválida{CORES['reset']}')
                 else:
                     c = True
 
@@ -383,13 +242,13 @@ while restart == 's':
             if mapa_pc[l][c] != 'B' and mapa_pc[l][c] != 'A':
                 posi = True
             else:
-                print(f'Posição \u001b[31m{letra}{linha} \u001b[33mjá Bombardeada!')
+                print(f'{CORES['red']}Posição {CORES['cyan'] + CORES['bold'] + CORES['underline']}{letra}{linha}{CORES['reset'] + CORES['red']} já Bombardeada!{CORES['reset']}')
         if mapa_pc[l][c] == 'N':
             mapa_pc[l][c] = 'B'
-            visual_pc[l][c] = f'\u001b[31m{x}\u001b[0m'
+            visual_pc[l][c] = f'{CORES['red']}{quadrado}{CORES['reset']}'
         else:
             mapa_pc[l][c] = 'A'
-            visual_pc[l][c] = f'\u001b[34m{x}\u001b[0m'
+            visual_pc[l][c] = f'{CORES['blue']}{quadrado}{CORES['reset']}'
         letra1 = letra
         linha1 = linha
 
@@ -402,10 +261,10 @@ while restart == 's':
                 pos = True
                 if mapa_jogador[linha][coluna] == 'N':
                     mapa_jogador[linha][coluna] = 'B'
-                    visual_jogador[linha][coluna] = f'\u001b[31m{x}\u001b[0m'
+                    visual_jogador[linha][coluna] = f'{CORES['red']}{quadrado}{CORES['reset']}'
                 elif mapa_jogador[linha][coluna] == ' ':
                     mapa_jogador[linha][coluna] = 'A'
-                    visual_jogador[linha][coluna] = f'\u001b[34m{x}\u001b[0m'
+                    visual_jogador[linha][coluna] = f'{CORES['blue']}{quadrado}{CORES['reset']}'
             
 
 
@@ -415,27 +274,27 @@ while restart == 's':
 
         ### prints ###
         if mapa_jogador[linha][coluna] == 'A':
-            jog = '\u001b[34mÁgua!\u001b[0m'
+            jog = f'{CORES['blue'] + CORES['bold']}Água!{CORES['reset']}'
         elif mapa_jogador[linha][coluna] == 'B':
-            jog = '\u001b[31mBOOOOMMMMM!\u001b[0m'
+            jog = f'{CORES['red'] + CORES['bold']}BOOOOMMMMM!{CORES['reset']}'
         
         if mapa_pc[l][c] == 'A':
-            pc = '\u001b[34mÁgua!\u001b[0m'
+            pc = f'{CORES['blue'] + CORES['bold']}Água!{CORES['reset']}'
         elif mapa_pc[l][c] == 'B':
-            pc = '\u001b[31mBOOOOMMMMM!\u001b[0m'
+            pc = f'{CORES['red'] + CORES['bold']}BOOOOMMMMM!{CORES['reset']}'
 
 
-        print(f'\u001b[0mÁgua!\u001b[0mJogador ---->>>> {letra1}{linha1}    {pc}\nComputador ---->>>> {ori1[coluna+1]}{linha+1}    {jog}')
+        print(f'{CORES['reset']}Jogador ---->>>> {CORES['cyan'] + CORES['bold'] + CORES['underline']}{letra1}{linha1}{CORES['reset']}    {pc}\nComputador ---->>>> {CORES['cyan'] + CORES['bold'] + CORES['underline']}{ori1[coluna+1]}{linha+1}{CORES['reset']}    {jog}')
 
         vitoria_jogador = foi_derrotado(mapa_pc)
         vitoria_pc = foi_derrotado(mapa_jogador)
 
         if vitoria_jogador == True:
-            print('\u001b[35m\u001b[1mVocê venceu!\nTemos um novo xerife nos mares!\u001b[0m')
+            print(f'{CORES['magenta'] + CORES['bold']}Você venceu!\nTemos um novo xerife nos mares!{CORES['reset']}')
         elif vitoria_pc == True:
-            print('\u001b[35m\u001b[1mVocê perdeu!\nO computador ainda é o senhor dos mares\u001b[0m')
+            print(f'{CORES['magenta'] + CORES['bold']}Você perdeu!\nO computador ainda é o senhor dos mares{CORES['reset']}')
 
-    restart = (input('\u001b[33mJogar novamente? [s/n] \u001b[0m')).lower()
+    restart = (input(f'{CORES['yellow']}Jogar novamente? [s/n] {CORES['reset']}')).lower()
     vitoria_pc = False
     vitoria_jogador = False
 print('\n\nAté a proxima!')
