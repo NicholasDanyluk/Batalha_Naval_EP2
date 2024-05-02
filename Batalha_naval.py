@@ -168,7 +168,7 @@ for navio in PAISES[pais_pc]:
     for i in range(PAISES[pais_pc][navio]):
         navios_pc.append(CONFIGURACAO[navio])
 mapa_pc = aloca_navios(mapa,navios_pc)
-print(mapa_pc)
+
 
 ### printa as mensagens iniciais ###
 welcome = ''' ===================================== 
@@ -332,10 +332,102 @@ for tempo in tempos:
     print(tempo)
     time.sleep(1)
 
-vitoria_pc = True
-vitoria_jogador = True
+
+vitoria_pc = False
+vitoria_jogador = False
 
 ### loop do jogo ###
 
-# while vitoria_jogador == True and vitoria_pc == True:
+while vitoria_jogador == False and vitoria_pc == False:
+    ### print do mapa ###
+    display = [f'''  COMPUTADOR - {pais_pc}                   JOGADOR - {pais_jogador}
+     A  B  C  D  E  F  G  H  I  J          A  B  C  D  E  F  G  H  I  J ''']
+    for i in range(9):
+        display.append(f'  {i+1} {visual_pc[i][0]}{visual_pc[i][1]}{visual_pc[i][2]}{visual_pc[i][3]}{visual_pc[i][4]}{visual_pc[i][5]}{visual_pc[i][6]}{visual_pc[i][7]}{visual_pc[i][8]}{visual_pc[i][9]} {i+1}    {i+1} {visual_jogador[i][0]}{visual_jogador[i][1]}{visual_jogador[i][2]}{visual_jogador[i][3]}{visual_jogador[i][4]}{visual_jogador[i][5]}{visual_jogador[i][6]}{visual_jogador[i][7]}{visual_jogador[i][8]}{visual_jogador[i][9]} {i+1}')
+    i+=1
+    display.append(f' 10 {visual_pc[i][0]}{visual_pc[i][1]}{visual_pc[i][2]}{visual_pc[i][3]}{visual_pc[i][4]}{visual_pc[i][5]}{visual_pc[i][6]}{visual_pc[i][7]}{visual_pc[i][8]}{visual_pc[i][9]} 10  10 {visual_jogador[i][0]}{visual_jogador[i][1]}{visual_jogador[i][2]}{visual_jogador[i][3]}{visual_jogador[i][4]}{visual_jogador[i][5]}{visual_jogador[i][6]}{visual_jogador[i][7]}{visual_jogador[i][8]}{visual_jogador[i][9]} 10')
+    display.append('     A  B  C  D  E  F  G  H  I  J          A  B  C  D  E  F  G  H  I  J')
+    for a in display:
+        print(a)
+    #####################
+    print('Cordenadas do seu disparo')
+
+    ### bomba do jogador ###
+    posi = False
+    while posi == False:
+        c = False
+        while c == False:
+            letra = input('Informe a letra: ')
+            letra = letra.upper()
+            if letra not in ori:
+                print('Letra inválida')
+            else:
+                c = True
+        
+        c = False
+        while c == False:
+            linha = input('Informe a linha: ')
+            if linha not in ori_num:
+                print('Linha inválida')
+            else:
+                c = True
+
+        l = int(linha)-1
+        c = ori[letra]
+        if mapa_pc[l][c] != 'B' and mapa_pc[l][c] != 'A':
+            posi = True
+        else:
+            print(f'Posição {letra}{linha} já Bombardeada!')
+    if mapa_pc[l][c] == 'N':
+        mapa_pc[l][c] = 'B'
+        visual_pc[l][c] = f'\u001b[31m{x}\u001b[0m'
+    else:
+        mapa_pc[l][c] = 'A'
+        visual_pc[l][c] = f'\u001b[34m{x}\u001b[0m'
+    letra1 = letra
+    linha1 = linha
+
+    ### bomba do computador ###
+    pos = False
+    while pos == False:
+        linha = random.randint(0, 9)
+        coluna = random.randint(0, 9)
+        if mapa_jogador[linha][coluna] == ' ' or mapa_jogador[linha][coluna] == 'N':
+            pos = True
+            if mapa_jogador[linha][coluna] == 'N':
+                mapa_jogador[linha][coluna] = 'B'
+                visual_jogador[linha][coluna] = f'\u001b[31m{x}\u001b[0m'
+            elif mapa_jogador[linha][coluna] == ' ':
+                mapa_jogador[linha][coluna] = 'A'
+                visual_jogador[linha][coluna] = f'\u001b[34m{x}\u001b[0m'
+        
+
+
+    ori1 = {}
+    for key,valor in ori.items():
+        ori1[valor+1] = key
+
+    ### prints ###
+    if mapa_jogador[l][c] == 'A':
+        jog = 'Água!'
+    elif mapa_jogador[l][c] == 'B':
+        jog = 'BOOOOMMMMM!'
+    
+    if mapa_pc[linha][coluna] == 'A':
+        pc = 'Água!'
+    elif mapa_pc[linha][coluna] == 'B':
+        pc = 'BOOOOMMMMM!'
+
+
+    print(f'Jogador ---->>>> {letra1}{linha1}    {1}\nComputador ---->>>> {ori1[coluna+1]}{linha+1}    {1}')
+
+    vitoria_jogador = foi_derrotado(mapa_pc)
+    vitoria_pc = foi_derrotado(mapa_jogador)
+
+    if vitoria_jogador == True:
+        print('Você ganhou!\nVocê é o senhor dos mares!')
+    elif vitoria_pc == True:
+        print('Você perdeu!\nO computador ainda é o senhor dos mares')
+
+# restart = input('Jogar novamente? [s/n] ')
     
