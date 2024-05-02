@@ -411,26 +411,28 @@ while restart == 's':
             ori1[valor+1] = key
 
         ### prints ###
-        if mapa_jogador[l][c] == 'A':
+        if mapa_jogador[linha][coluna] == 'A':
             jog = 'Água!'
-        elif mapa_jogador[l][c] == 'B':
+        elif mapa_jogador[linha][coluna] == 'B':
             jog = 'BOOOOMMMMM!'
         
-        if mapa_pc[linha][coluna] == 'A':
+        if mapa_pc[l][c] == 'A':
             pc = 'Água!'
-        elif mapa_pc[linha][coluna] == 'B':
+        elif mapa_pc[l][c] == 'B':
             pc = 'BOOOOMMMMM!'
 
 
-        print(f'Jogador ---->>>> {letra1}{linha1}    {1}\nComputador ---->>>> {ori1[coluna+1]}{linha+1}    {1}')
+        print(f'Jogador ---->>>> {letra1}{linha1}    {pc}\nComputador ---->>>> {ori1[coluna+1]}{linha+1}    {jog}')
 
         vitoria_jogador = foi_derrotado(mapa_pc)
         vitoria_pc = foi_derrotado(mapa_jogador)
 
         if vitoria_jogador == True:
-            print('Você ganhou!\nVocê é o senhor dos mares!')
+            print('Você venceu!\nTemos um novo xerife nos mares!')
         elif vitoria_pc == True:
             print('Você perdeu!\nO computador ainda é o senhor dos mares')
 
     restart = (input('Jogar novamente? [s/n] ')).lower()
-    
+    vitoria_pc = False
+    vitoria_jogador = False
+print('\n\nAté a proxima!')
