@@ -301,7 +301,7 @@ for i in range(len(alocar)):
             print(f'Não foi possivel alocar o navio em {letra}{linha} {orientacao}')
             ### print do mapa ###
             display = [f'''  COMPUTADOR - {pais_pc}                   JOGADOR - {pais_jogador}
-        A  B  C  D  E  F  G  H  I  J          A  B  C  D  E  F  G  H  I  J ''']
+     A  B  C  D  E  F  G  H  I  J          A  B  C  D  E  F  G  H  I  J ''']
             for i in range(9):
                 display.append(f'  {i+1} {visual_pc[i][0]}{visual_pc[i][1]}{visual_pc[i][2]}{visual_pc[i][3]}{visual_pc[i][4]}{visual_pc[i][5]}{visual_pc[i][6]}{visual_pc[i][7]}{visual_pc[i][8]}{visual_pc[i][9]} {i+1}    {i+1} {visual_jogador[i][0]}{visual_jogador[i][1]}{visual_jogador[i][2]}{visual_jogador[i][3]}{visual_jogador[i][4]}{visual_jogador[i][5]}{visual_jogador[i][6]}{visual_jogador[i][7]}{visual_jogador[i][8]}{visual_jogador[i][9]} {i+1}')
             i+=1
@@ -344,7 +344,7 @@ while restart == 's':
     while vitoria_jogador == False and vitoria_pc == False:
         ### print do mapa ###
         display = [f'''  COMPUTADOR - {pais_pc}                   JOGADOR - {pais_jogador}
-        A  B  C  D  E  F  G  H  I  J          A  B  C  D  E  F  G  H  I  J ''']
+     A  B  C  D  E  F  G  H  I  J          A  B  C  D  E  F  G  H  I  J ''']
         for i in range(9):
             display.append(f'  {i+1} {visual_pc[i][0]}{visual_pc[i][1]}{visual_pc[i][2]}{visual_pc[i][3]}{visual_pc[i][4]}{visual_pc[i][5]}{visual_pc[i][6]}{visual_pc[i][7]}{visual_pc[i][8]}{visual_pc[i][9]} {i+1}    {i+1} {visual_jogador[i][0]}{visual_jogador[i][1]}{visual_jogador[i][2]}{visual_jogador[i][3]}{visual_jogador[i][4]}{visual_jogador[i][5]}{visual_jogador[i][6]}{visual_jogador[i][7]}{visual_jogador[i][8]}{visual_jogador[i][9]} {i+1}')
         i+=1
