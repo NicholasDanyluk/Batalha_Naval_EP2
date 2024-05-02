@@ -9,6 +9,9 @@
 # Cyan: \u001b[36m
 # White: \u001b[37m
 # Reset: \u001b[0m
+# bold: \u001b[1m
+# underline: \u001b[4m
+# reversed: \u001b[7m
 
 ori = {'A': 0, 'B': 1, 'C': 2, 'D': 3, 'E': 4, 'F': 5, 'G': 6, 'H': 7, 'I': 8, 'J': 9}
 ori_num = ['1', '2', '3', '4', '5', '6', '7', '8', '9', '10']
@@ -171,55 +174,55 @@ mapa_pc = aloca_navios(mapa,navios_pc)
 
 
 ### printa as mensagens iniciais ###
-welcome = ''' ===================================== 
+welcome = '''\u001b[35m\u001b[1m ===================================== 
 |                                     |
 | Bem-vindo ao INSPER - Batalha Naval |
 |                                     |
- =======   xxxxxxxxxxxxxxxxx   ======= '''
+ =======   xxxxxxxxxxxxxxxxx   ======= \u001b[0m'''
 
-aviso = f'Iniciando o jogo!\n\nComputador está alocando os navios de guerra do país {pais_pc}...\nComputador já está em posição de batalha!'
+aviso = f'\u001b[35m\u001b[1mIniciando o jogo!\n\n\u001b[33mComputador está alocando os navios de guerra do país {pais_pc}...\nComputador já está em posição de batalha!\u001b[0m'
 
-config = '''
-1: Brasil
+config = '''\u001b[35m\u001b[1m
+1: Brasil\u001b[0m\u001b[34m
    1 cruzador
    2 torpedeiro
    1 destroyer
    1 couracado
    1 porta-avioes
-
-2: França
+\u001b[35m\u001b[1m
+2: França\u001b[0m\u001b[34m
    3 cruzador
    1 porta-avioes
    1 destroyer
    1 submarino
    1 couracado
-
-3: Austrália
+\u001b[35m\u001b[1m
+3: Austrália\u001b[0m\u001b[34m
    1 couracado
    3 cruzador
    1 submarino
    1 porta-avioes
    1 torpedeiro
-
-4: Rússia
+\u001b[35m\u001b[1m
+4: Rússia\u001b[0m\u001b[34m
    1 cruzador
    1 porta-avioes
    2 couracado
    1 destroyer
    1 submarino
-
-5: Japão
+\u001b[35m\u001b[1m
+5: Japão\u001b[0m\u001b[34m
    2 torpedeiro
    1 cruzador
    2 destroyer
    1 couracado
    1 submarino
-'''
+\u001b[0m'''
 
 print(f'{welcome}\n\n{aviso}\n{config}')
 
 ### define o pais do jogador ###
-jogador = input('Qual o número da nação da sua frota? ')
+jogador = input('\u001b[33mQual o número da nação da sua frota? ')
 while jogador not in p:
     print('Opção inválida')
     jogador = input('Qual o número da nação da sua frota? ')
@@ -244,7 +247,7 @@ for navio in PAISES[pais_jogador]:
 for i in range(len(alocar)):
 
     ### print do mapa ###
-    display = [f'''  COMPUTADOR - {pais_pc}                   JOGADOR - {pais_jogador}
+    display = [f'''\u001b[0m\u001b[35m\u001b[1m  COMPUTADOR - {pais_pc}                   JOGADOR - {pais_jogador}\u001b[0m
      A  B  C  D  E  F  G  H  I  J          A  B  C  D  E  F  G  H  I  J ''']
     for i in range(9):
         display.append(f'  {i+1} {visual_pc[i][0]}{visual_pc[i][1]}{visual_pc[i][2]}{visual_pc[i][3]}{visual_pc[i][4]}{visual_pc[i][5]}{visual_pc[i][6]}{visual_pc[i][7]}{visual_pc[i][8]}{visual_pc[i][9]} {i+1}    {i+1} {visual_jogador[i][0]}{visual_jogador[i][1]}{visual_jogador[i][2]}{visual_jogador[i][3]}{visual_jogador[i][4]}{visual_jogador[i][5]}{visual_jogador[i][6]}{visual_jogador[i][7]}{visual_jogador[i][8]}{visual_jogador[i][9]} {i+1}')
@@ -256,7 +259,7 @@ for i in range(len(alocar)):
     #####################
 
     blocos = CONFIGURACAO[alocar[0]]
-    print(f'Alocar: {alocar[0]} ({blocos} blocos)')
+    print(f'\u001b[0m\u001b[33mAlocar: {alocar[0]} ({blocos} blocos)')
     del alocar[0]
     if len(alocar) > 0:
         prox = alocar[0]
@@ -300,7 +303,7 @@ for i in range(len(alocar)):
         if posicao == False:
             print(f'Não foi possivel alocar o navio em {letra}{linha} {orientacao}')
             ### print do mapa ###
-            display = [f'''  COMPUTADOR - {pais_pc}                   JOGADOR - {pais_jogador}
+            display = [f'''\u001b[0m\u001b[35m\u001b[1m  COMPUTADOR - {pais_pc}                   JOGADOR - {pais_jogador}\u001b[0m
      A  B  C  D  E  F  G  H  I  J          A  B  C  D  E  F  G  H  I  J ''']
             for i in range(9):
                 display.append(f'  {i+1} {visual_pc[i][0]}{visual_pc[i][1]}{visual_pc[i][2]}{visual_pc[i][3]}{visual_pc[i][4]}{visual_pc[i][5]}{visual_pc[i][6]}{visual_pc[i][7]}{visual_pc[i][8]}{visual_pc[i][9]} {i+1}    {i+1} {visual_jogador[i][0]}{visual_jogador[i][1]}{visual_jogador[i][2]}{visual_jogador[i][3]}{visual_jogador[i][4]}{visual_jogador[i][5]}{visual_jogador[i][6]}{visual_jogador[i][7]}{visual_jogador[i][8]}{visual_jogador[i][9]} {i+1}')
@@ -310,7 +313,7 @@ for i in range(len(alocar)):
             for a in display:
                 print(a)
             #####################
-            print(f'Alocar: {alocar[0]} ({blocos} blocos)')
+            print(f'\u001b[0m\u001b[33mAlocar: {alocar[0]} ({blocos} blocos)')
             if len(alocar) > 0:
                 prox = alocar[0]
                 for i in range(1,len(alocar)):
@@ -328,7 +331,7 @@ for i in range(len(alocar)):
             visual_jogador[l][c+i] = f'\u001b[32m{x}\u001b[0m'
 
 ### start print ###
-print('Iniciando batalha naval!')
+print('\u001b[0m\u001b[31m\u001b[1mIniciando batalha naval!')
 tempos = [5,4,3,2,1]
 for tempo in tempos:
     print(tempo)
@@ -343,7 +346,7 @@ restart = 's'
 while restart == 's':
     while vitoria_jogador == False and vitoria_pc == False:
         ### print do mapa ###
-        display = [f'''  COMPUTADOR - {pais_pc}                   JOGADOR - {pais_jogador}
+        display = [f'''\u001b[0m\u001b[35m\u001b[1m  COMPUTADOR - {pais_pc}                   JOGADOR - {pais_jogador}\u001b[0m
      A  B  C  D  E  F  G  H  I  J          A  B  C  D  E  F  G  H  I  J ''']
         for i in range(9):
             display.append(f'  {i+1} {visual_pc[i][0]}{visual_pc[i][1]}{visual_pc[i][2]}{visual_pc[i][3]}{visual_pc[i][4]}{visual_pc[i][5]}{visual_pc[i][6]}{visual_pc[i][7]}{visual_pc[i][8]}{visual_pc[i][9]} {i+1}    {i+1} {visual_jogador[i][0]}{visual_jogador[i][1]}{visual_jogador[i][2]}{visual_jogador[i][3]}{visual_jogador[i][4]}{visual_jogador[i][5]}{visual_jogador[i][6]}{visual_jogador[i][7]}{visual_jogador[i][8]}{visual_jogador[i][9]} {i+1}')
@@ -353,7 +356,7 @@ while restart == 's':
         for a in display:
             print(a)
         #####################
-        print('Cordenadas do seu disparo')
+        print('\u001b[33mCordenadas do seu disparo')
 
         ### bomba do jogador ###
         posi = False
@@ -380,7 +383,7 @@ while restart == 's':
             if mapa_pc[l][c] != 'B' and mapa_pc[l][c] != 'A':
                 posi = True
             else:
-                print(f'Posição {letra}{linha} já Bombardeada!')
+                print(f'Posição \u001b[31m{letra}{linha} \u001b[33mjá Bombardeada!')
         if mapa_pc[l][c] == 'N':
             mapa_pc[l][c] = 'B'
             visual_pc[l][c] = f'\u001b[31m{x}\u001b[0m'
@@ -412,27 +415,27 @@ while restart == 's':
 
         ### prints ###
         if mapa_jogador[linha][coluna] == 'A':
-            jog = 'Água!'
+            jog = '\u001b[34mÁgua!\u001b[0m'
         elif mapa_jogador[linha][coluna] == 'B':
-            jog = 'BOOOOMMMMM!'
+            jog = '\u001b[31mBOOOOMMMMM!\u001b[0m'
         
         if mapa_pc[l][c] == 'A':
-            pc = 'Água!'
+            pc = '\u001b[34mÁgua!\u001b[0m'
         elif mapa_pc[l][c] == 'B':
-            pc = 'BOOOOMMMMM!'
+            pc = '\u001b[31mBOOOOMMMMM!\u001b[0m'
 
 
-        print(f'Jogador ---->>>> {letra1}{linha1}    {pc}\nComputador ---->>>> {ori1[coluna+1]}{linha+1}    {jog}')
+        print(f'\u001b[0mÁgua!\u001b[0mJogador ---->>>> {letra1}{linha1}    {pc}\nComputador ---->>>> {ori1[coluna+1]}{linha+1}    {jog}')
 
         vitoria_jogador = foi_derrotado(mapa_pc)
         vitoria_pc = foi_derrotado(mapa_jogador)
 
         if vitoria_jogador == True:
-            print('Você venceu!\nTemos um novo xerife nos mares!')
+            print('\u001b[35m\u001b[1mVocê venceu!\nTemos um novo xerife nos mares!\u001b[0m')
         elif vitoria_pc == True:
-            print('Você perdeu!\nO computador ainda é o senhor dos mares')
+            print('\u001b[35m\u001b[1mVocê perdeu!\nO computador ainda é o senhor dos mares\u001b[0m')
 
-    restart = (input('Jogar novamente? [s/n] ')).lower()
+    restart = (input('\u001b[33mJogar novamente? [s/n] \u001b[0m')).lower()
     vitoria_pc = False
     vitoria_jogador = False
 print('\n\nAté a proxima!')
