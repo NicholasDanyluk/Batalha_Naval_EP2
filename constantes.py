@@ -63,11 +63,111 @@ PAISES =  {
     }
 }
 
-quadrado = '▓▓▓'
+bemvindo = ''' ===================================== 
+|                                     |
+| Bem-vindo ao INSPER - Batalha Naval |
+|                                     |
+ =======   xxxxxxxxxxxxxxxxx   ======= '''
 
-barco = '''
+config = f'''{CORES['magenta'] + CORES['bold']}
+1: Brasil{CORES['reset'] + CORES['blue']}
+1 cruzador
+2 torpedeiro
+1 destroyer
+1 couracado
+1 porta-avioes
+{CORES['magenta'] + CORES['bold']}
+2: França{CORES['reset'] + CORES['blue']}
+3 cruzador
+1 porta-avioes
+1 destroyer
+1 submarino
+1 couracado
+{CORES['magenta'] + CORES['bold']}
+3: Austrália{CORES['reset'] + CORES['blue']}
+1 couracado
+3 cruzador
+1 submarino
+1 porta-avioes
+1 torpedeiro
+{CORES['magenta'] + CORES['bold']}
+4: Rússia{CORES['reset'] + CORES['blue']}
+1 cruzador
+1 porta-avioes
+2 couracado
+1 destroyer
+1 submarino
+{CORES['magenta'] + CORES['bold']}
+5: Japão{CORES['reset'] + CORES['blue']}
+2 torpedeiro
+1 cruzador
+2 destroyer
+1 couracado
+1 submarino
+{CORES['reset']}'''
+
+quadrado = '███'
+
+barco = f'''{CORES['bold']}
                 __/___            
           _____/______|           
   _______/_____\_______\______________
   \              < < <                |    
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ \n'''
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ \n{CORES['reset']}'''
+
+
+msg_vitoria = f'\n{CORES['reset']+CORES['bold']+CORES['underline']}PARABÉNS, VOCÊ É O NOVO REI DOS MARES!!! AQUI ESTA SEU TROFÉU!{CORES['reset']}\n'
+msg_derrota = f'{CORES['reset']+CORES['bold']} VOCÊ NÃO AGUENTOU O PODER DOS MARES!!!{CORES['reset']}'
+
+trofeu = f'''{CORES['yellow']}
+        ##########################          
+        ##########################          
+   #####################################    
+ #########################################  
+####      ######################       #### 
+###       ######################        ### 
+##        ######################        ### 
+###     ##########################      ### 
+###    ############################    #### 
+ ###   ### #################### ###    ###  
+ ####   ### ################## ####  ####   
+   ####  ######################### #####    
+    ######## ################ #########     
+      ######  ##############   ######       
+               ############                 
+                 ########                   
+                   ####                     
+                   ####                     
+                   ####                     
+                   ####                     
+               ############                 
+            ##################              
+            ##################              
+            ###{CORES['reset']+CORES['bold']}  REI DOS{CORES['reset']+CORES['yellow']}   ###              
+            ###{CORES['reset']+CORES['bold']}   MARES{CORES['reset']+CORES['yellow']}    ###              
+            ###            ###              
+            ##################              
+            ##################              
+          ######################            
+         ########################           {CORES['reset']}\n'''
+
+
+gameover = f'''{CORES['reset']+CORES['bold']+CORES['red']}
+     _____          __  __ ______    ______      ________ _____      
+    / ____|   /\   |  \/  |  ____|  / __ \ \    / /  ____|  __ \     
+   | |  __   /  \  | \  / | |__    | |  | \ \  / /| |__  | |__) |     
+   | | |_ | / /\ \ | |\/| |  __|   | |  | |\ \/ / |  __| |  _  /    
+   | |__| |/ ____ \| |  | | |____  | |__| | \  /  | |____| | \ \    
+    \_____/_/    \_\_|  |_|______|  \____/   \/   |______|_|  \_\   
+    {CORES['reset']}\n'''
+
+tchau = f'''{CORES['bold']}
+
+              |    |    |                         |    |    |              
+             )_)  )_)  )_)                       )_)  )_)  )_)             
+            )___))___))___)\                    )___))___))___)\           
+           )____)____)_____)\\                 )____)____)_____)\\         
+         _____|____|____|____\\\__           _____|____|____|____\\\__     
+         \     ATÉ MAIS      /               \       MARUJO      /         
+      ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^          
+      {CORES['reset']}'''
