@@ -44,6 +44,9 @@ while restart == 's':
     
     ### alocação de navios aleatoriamente ###
     aleatorio = (input(f'{CORES['yellow']}Você deseja que os navios sejam alocados aleatoriamente? [s/n] {CORES['reset']}')).lower()
+    while aleatorio != 's' and aleatorio != 'n':
+        print(f'{CORES['red']}Opção invalida{CORES['reset']}')
+        aleatorio = (input(f'{CORES['yellow']}Você deseja que os navios sejam alocados aleatoriamente? [s/n] {CORES['reset']}')).lower()
     if aleatorio == 's':
 
         navios_jogador = []
